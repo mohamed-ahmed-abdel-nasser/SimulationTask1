@@ -30,18 +30,21 @@
         {
             this.SimulationTable = new System.Windows.Forms.DataGridView();
             this.CustomerNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rand1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.InterArrival = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Arrival = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ServerIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TimeBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ServiceTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rand2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TimeServiceBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ServiceTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimeServiceEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TotalDelay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SetValues = new System.Windows.Forms.Button();
             this.Simulate = new System.Windows.Forms.Button();
             this.Graph1 = new System.Windows.Forms.Button();
             this.Graph2 = new System.Windows.Forms.Button();
             this.Graph3 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.SimulationTable)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,22 +53,29 @@
             this.SimulationTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.SimulationTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CustomerNo,
+            this.Rand1,
             this.InterArrival,
             this.Arrival,
             this.ServerIndex,
-            this.TimeBegin,
-            this.ServiceTime,
+            this.Rand2,
             this.TimeServiceBegin,
+            this.ServiceTime,
+            this.TimeServiceEnd,
             this.TotalDelay});
             this.SimulationTable.Location = new System.Drawing.Point(12, 70);
             this.SimulationTable.Name = "SimulationTable";
-            this.SimulationTable.Size = new System.Drawing.Size(843, 432);
+            this.SimulationTable.Size = new System.Drawing.Size(1041, 432);
             this.SimulationTable.TabIndex = 0;
             // 
             // CustomerNo
             // 
             this.CustomerNo.HeaderText = "CustomerNo";
             this.CustomerNo.Name = "CustomerNo";
+            // 
+            // Rand1
+            // 
+            this.Rand1.HeaderText = "Random number for interarrival time";
+            this.Rand1.Name = "Rand1";
             // 
             // InterArrival
             // 
@@ -82,20 +92,25 @@
             this.ServerIndex.HeaderText = "ServerIndex";
             this.ServerIndex.Name = "ServerIndex";
             // 
-            // TimeBegin
+            // Rand2
             // 
-            this.TimeBegin.HeaderText = "TimeBegin";
-            this.TimeBegin.Name = "TimeBegin";
+            this.Rand2.HeaderText = "Random number for service time";
+            this.Rand2.Name = "Rand2";
+            // 
+            // TimeServiceBegin
+            // 
+            this.TimeServiceBegin.HeaderText = "TimeServiceBegin";
+            this.TimeServiceBegin.Name = "TimeServiceBegin";
             // 
             // ServiceTime
             // 
             this.ServiceTime.HeaderText = "ServiceTime";
             this.ServiceTime.Name = "ServiceTime";
             // 
-            // TimeServiceBegin
+            // TimeServiceEnd
             // 
-            this.TimeServiceBegin.HeaderText = "TimeServiceBegin";
-            this.TimeServiceBegin.Name = "TimeServiceBegin";
+            this.TimeServiceEnd.HeaderText = "TimeServiceEnd";
+            this.TimeServiceEnd.Name = "TimeServiceEnd";
             // 
             // TotalDelay
             // 
@@ -152,11 +167,22 @@
             this.Graph3.UseVisualStyleBackColor = true;
             this.Graph3.Click += new System.EventHandler(this.Graph3_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(550, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(77, 34);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Statistics";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(961, 508);
+            this.ClientSize = new System.Drawing.Size(1065, 508);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.Graph3);
             this.Controls.Add(this.Graph2);
             this.Controls.Add(this.Graph1);
@@ -173,19 +199,22 @@
         #endregion
 
         private System.Windows.Forms.DataGridView SimulationTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CustomerNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn InterArrival;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Arrival;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ServerIndex;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TimeBegin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ServiceTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TimeServiceBegin;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TotalDelay;
         private System.Windows.Forms.Button SetValues;
         private System.Windows.Forms.Button Simulate;
         private System.Windows.Forms.Button Graph1;
         private System.Windows.Forms.Button Graph2;
         private System.Windows.Forms.Button Graph3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CustomerNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Rand1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn InterArrival;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Arrival;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ServerIndex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Rand2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimeServiceBegin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ServiceTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimeServiceEnd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalDelay;
+        private System.Windows.Forms.Button button1;
 
     }
 }

@@ -39,11 +39,12 @@ namespace WindowsFormsApplication1
                 this.chart1.Series["Queue"].Points.AddXY(Time[i], size[i]);
             }
         }
-        public void PlotChart(double[] arr)
+        public void PlotChart(int[] arr)
         {
-            for (int i = 0; i < 1000; ++i)
+            for (int i = 0; i < arr.Length; ++i)
             {
                 this.chart1.Series["Queue"].Points.AddXY(i, arr[i]);
+                 
             }
         }
         public void PlotChart(int count, double[] arr)

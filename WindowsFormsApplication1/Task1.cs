@@ -71,7 +71,7 @@ namespace WindowsFormsApplication1
         public ArrayList Probability = new ArrayList();
         public ArrayList Cumulative = new ArrayList();
         public ArrayList Rand = new ArrayList();
-
+        public ArrayList RandomNumbers = new ArrayList();
         public InterArraival() { }
         public InterArraival(int user, int Percision)
         {
@@ -102,6 +102,7 @@ namespace WindowsFormsApplication1
             for (int i = 0; i < users; ++i)
             {
                 n = r.Next() % precision;
+                RandomNumbers.Add(n);
                 for (int j = 0; j < Cumulative.Count; ++j)
                 {
                     if (n <= Convert.ToDouble(Cumulative[j]) * precision)
@@ -115,14 +116,25 @@ namespace WindowsFormsApplication1
     {
         public int Count = 0;
         public double[] Busy = new double[500];
+        public double[] end = new double[500];
         public BusyServer()
         {
 
         }
-        public void Set_Busy(double Time)
+        public void Set_Busy(double Time , double e)
         {
             Busy[Count] = Time;
+            end[Count] = e;
             Count++;
+        }
+        public int idle()
+        {
+            int sum = 0;
+            for (int i = 1; i < Count; ++i)
+            {
+                sum +=(int) (Busy[i] - end[i - 1]);
+            }
+            return sum;
         }
     }
     public class SelectedServer
@@ -141,6 +153,13 @@ namespace WindowsFormsApplication1
             {
                 arr[j] = 0;
             }
+        }
+        public int Heighest_Priority(double value)
+        {
+            for (int i = 0; i < number; ++i )
+                if (arr[i] <= value)
+                    return i;
+            return -1;
         }
         public int Select_server()
         {
@@ -163,14 +182,25 @@ namespace WindowsFormsApplication1
     }
     public class TotalDelay
     {
-        public double[] groups = new double[1000];
+        public int[] groups = new int[100];
         public TotalDelay()
         {
-            for (int j = 0; j < 1000; j++)
+            for (int j = 0; j < 100; j++)
             {
                 groups[j] = 0;
             }
         }
+        public int numberOfWaiters(int users)
+        {
+            int count = 0;
+            for (int i = 0; i < users; ++i)
+            {
+                if (groups[i] > 0)
+                    count++;
+            }
+            return count;
+        }
+        
         public void Set_Delay(int Duration)
         {
             groups[Duration]++;
@@ -186,11 +216,6 @@ namespace WindowsFormsApplication1
         {
             Time = new double[nUser];
             Size = new double[nUser];
-            for (int j = 0; j < nUser; j++)
-            {
-                Size[j] = 1;
-
-            }
         }
         public void Set_Size(double time, double size)
         {

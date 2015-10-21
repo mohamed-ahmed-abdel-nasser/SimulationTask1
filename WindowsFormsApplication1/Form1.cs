@@ -57,41 +57,49 @@ namespace WindowsFormsApplication1
             DataGridViewRow row;
             row = (DataGridViewRow)SimulationTable.Rows[0].Clone();
             row.Cells[0].Value = "1";
-            row.Cells[1].Value = S.I.Rand[0];
-            row.Cells[2].Value = "0";
-            row.Cells[3].Value = "1";
-            row.Cells[4].Value = "0";
-            row.Cells[5].Value = S.table[0].FindService(number).ToString();
-            row.Cells[7].Value = "0";
+            row.Cells[1].Value = S.I.RandomNumbers[0];
+            row.Cells[2].Value = S.I.Rand[0];
+            row.Cells[3].Value = "0";
+            row.Cells[4].Value = "1";
+            row.Cells[5].Value = number.ToString();
+            row.Cells[6].Value = "0";
+            row.Cells[7].Value = S.table[0].FindService(number).ToString();
+            row.Cells[8].Value = row.Cells[7].Value;
+            row.Cells[9].Value = "0";
             Arrive.Add(0);
-            row.Cells[6].Value = (Convert.ToDouble(Arrive[0]) + S.table[0].FindService(number)).ToString();
+            //row.Cells[6].Value = (Convert.ToDouble(Arrive[0]) + S.table[0].FindService(number)).ToString();
             server.future_End(0, S.table[0].FindService(number));
-            Busy[0].Set_Busy(0);
+            Busy[0].Set_Busy(0, Convert.ToDouble(row.Cells[7].Value));
             Timebegin.Add(0);
             SimulationTable.Rows.Add(row);
 
             for (int i = 1; i < S.UsersNumber; ++i)
             {
-                Index = server.Select_server();
+                
                 number = r.Next() % percision;
                 row = (DataGridViewRow)SimulationTable.Rows[i].Clone();
                 row.Cells[0].Value = (i+1).ToString();
-                row.Cells[1].Value = S.I.Rand[i];
+                row.Cells[1].Value = S.I.RandomNumbers[i];
+                row.Cells[2].Value = S.I.Rand[i];
                 Arrival = Convert.ToDouble(S.I.Rand[i]) + Convert.ToDouble(Arrive[i - 1]);
                 Arrive.Add(Arrival);
-                row.Cells[2].Value = Arrival.ToString();
-                row.Cells[3].Value = (Index + 1).ToString();
+                Index = server.Heighest_Priority(Arrival);
+                if (Index == -1)
+                    Index = server.Select_server();
+                row.Cells[3].Value = Arrival.ToString();
+                row.Cells[4].Value = (Index + 1).ToString();
                 timeBegin = (Arrival > server.arr[Index]) ? Arrival : server.arr[Index];
                 ServiceEnd = timeBegin + S.table[Index].FindService(number);
-                row.Cells[4].Value = timeBegin.ToString();
-                row.Cells[5].Value = S.table[Index].FindService(number);
-                row.Cells[6].Value = ServiceEnd.ToString();
-                row.Cells[7].Value = (timeBegin - Arrival).ToString();
+                row.Cells[5].Value = number.ToString();
+                row.Cells[6].Value = timeBegin.ToString();
+                row.Cells[7].Value = S.table[Index].FindService(number);
+                row.Cells[8].Value = ServiceEnd.ToString();
+                row.Cells[9].Value = (timeBegin - Arrival).ToString();
                 T.Set_Delay((int)(timeBegin - Arrival));
                 Timebegin.Add(timeBegin);
                 Timeends.Add(ServiceEnd);
                 server.future_End(Index, ServiceEnd);
-                Busy[Index].Set_Busy(timeBegin);
+                Busy[Index].Set_Busy(timeBegin,ServiceEnd);
 
                 if (Arrival < server.max)
                 {
@@ -101,10 +109,11 @@ namespace WindowsFormsApplication1
                 else
                 {
                     Queue.Clear();
-                    Q.Set_Size(Arrival, 1);
+                    Q.Set_Size(Arrival, 0);
                 }
                 SimulationTable.Rows.Add(row);
             }
+          
         }
 
         private void Graph1_Click(object sender, EventArgs e)
@@ -116,6 +125,7 @@ namespace WindowsFormsApplication1
 
         private void Graph2_Click(object sender, EventArgs e)
         {
+            
             G2.Show();
             G2.PlotChart(T.groups);
         }
@@ -128,6 +138,26 @@ namespace WindowsFormsApplication1
                 G3.PlotChart(Busy[i].Count, Busy[i].Busy);
                 MessageBox.Show(i.ToString() + " Done ");
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            double sum = 0;
+            for (int i = 0; i < S.UsersNumber; ++i)
+            {
+                sum += Convert.ToDouble(SimulationTable.Rows[i].Cells[9].Value);
+            }
+            double p1 = sum / Convert.ToDouble(S.UsersNumber);
+            double p2 = T.numberOfWaiters(S.UsersNumber) / Convert.ToDouble(S.UsersNumber);
+            double p3 = Busy[0].idle() / Convert.ToDouble(Timeends[Timeends.Count-1]);
+            double p4 = Busy[1].idle() / Convert.ToDouble(Timeends[Timeends.Count-1]);
+            sum = 0;
+            for(int i=0 ; i < S.UsersNumber; ++i)
+            {
+                sum += Convert.ToDouble( SimulationTable.Rows[i].Cells[7].Value);
+            }
+            double p5 = sum / Convert.ToDouble(S.UsersNumber);
+            MessageBox.Show("avarege wating time : "+p1.ToString()+"\n"+ " Probability(wait) : "+p2.ToString() +"\n Probability(idle1) : " + p3.ToString() + "\n Probability(idle2) : " + p4.ToString()+ "\n averageServiceTime : "+ p5.ToString());
         }
 
     }
